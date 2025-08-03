@@ -144,12 +144,6 @@
         .pulse-animation {
             animation: pulse 3s ease-in-out infinite;
         }
-        
-        .expert-icon {
-            font-size: 200px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -185,25 +179,25 @@
     </nav>
     
     <!-- Hero Section -->
-    <section class="gradient-bg text-white pt-24 pb-20 md:pt-32 md:pb-32">
+    <section class="gradient-bg text-white pt-24 pb-20 md:pt-32 md:pb-32 lg:pt-40 lg:pb-40">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center md:h-[500px]">
-                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-12 flex flex-col justify-center">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-6 fade-in">Elevating Your Content Strategy for Tech, B2B & SaaS Success</h1>
-                    <div class="flex flex-wrap gap-6 mb-8 fade-in">
-                        <div class="flex items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-12 flex flex-col justify-center text-center md:text-left items-center md:items-start">
+                    <h1 class="text-4xl md:text-4xl lg:text-5xl font-bold mb-6 leading-normal md:leading-tight lg:leading-normal fade-in">Elevating Your Content Strategy for Tech, B2B & SaaS Success</h1>
+                    <div class="grid grid-cols-2 md:flex md:flex-row md:flex-nowrap gap-4 md:gap-x-12 mb-8 fade-in">
+                        <div class="flex items-center justify-center md:justify-start">
                             <i class="fas fa-chart-line text-2xl mr-2"></i>
                             <span>Brand Growth</span>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center justify-center md:justify-start">
                             <i class="fas fa-share-alt text-2xl mr-2"></i>
                             <span>Social Media</span>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center justify-center md:justify-start">
                             <i class="fas fa-search text-2xl mr-2"></i>
                             <span>SEO</span>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center justify-center md:justify-start">
                             <i class="fas fa-pen text-2xl mr-2"></i>
                             <span>Content Creation</span>
                         </div>
@@ -215,12 +209,14 @@
                         <i class="fas fa-arrow-right ml-2 transition-transform duration-300 transform group-hover:translate-x-1"></i>
                     </a>
                 </div>
-                <!-- Reverted back to the original icon and floating shapes -->
+                <!-- Replaced icon with image and added padding -->
                 <div class="md:w-1/2 flex justify-center items-center md:pl-12 md:h-full">
                     <div class="relative">
                         <div class="w-64 h-64 bg-white bg-opacity-20 rounded-full absolute -top-10 -right-10 float-animation"></div>
                         <div class="w-72 h-72 bg-white bg-opacity-10 rounded-full absolute -bottom-10 -left-10 float-animation" style="animation-delay: 2s;"></div>
-                        <i class="fas fa-user-tie expert-icon pulse-animation relative z-10"></i>
+                        <img src="https://ik.imagekit.io/sraboni190708/pfp%20-%20Copy.jpg" alt="Estelle Lee's profile picture" 
+                             class="w-64 h-64 md:w-72 md:h-72 object-cover rounded-full pulse-animation relative z-10"
+                             onerror="this.src='https://placehold.co/288x288/E5E7EB/4B5563?text=Image+Unavailable';">
                     </div>
                 </div>
             </div>
