@@ -1,928 +1,597 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estelle Lee - Digital Content Strategist</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
-        
-        /* Reverted the gradient to your original color theme */
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        
-        .pricing-card {
-            transition: all 0.3s ease;
-        }
-        
-        .pricing-card:hover {
-            transform: scale(1.05);
-        }
-        
-        .pricing-card.popular {
-            position: relative;
-            /* Reverted to the original deep berry color */
-            border: 2px solid #667eea;
-        }
-        
-        .pricing-card.popular::before {
-            content: "POPULAR";
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            /* Reverted to the original deep berry color */
-            background: #667eea;
-            color: white;
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .step-number {
-            width: 40px;
-            height: 40px;
-            /* Reverted to the original deep berry color */
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            position: absolute;
-            left: -20px;
-            top: 0;
-        }
-        
-        .approach-step {
-            position: relative;
-            padding-left: 30px;
-        }
-        
-        .testimonial-card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .testimonial-card:hover {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            /* Reverted to the original deep berry color */
-            background: #667eea;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse-animation {
-            animation: pulse 3s ease-in-out infinite;
-        }
-    </style>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Estelle Lee - Digital Content Strategist</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<style>
+	/* Palette & Fonts */
+	
+	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+	:root {
+		--dark-purple: #3c1e4f;
+		--accent-purple: #9658a1;
+		--light-purple: #f7f2fa;
+		--white: #ffffff;
+	}
+	
+	body {
+		font-family: 'Inter', sans-serif;
+		background-color: var(--light-purple);
+		scroll-behavior: smooth;
+	}
+	
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: 'Poppins', sans-serif;
+	}
+	/* Hero & Gradient */
+	
+	.gradient-bg {
+		background: linear-gradient( 135deg, var(--dark-purple) 0%, var(--accent-purple) 100%);
+	}
+	/* Nav underline */
+	
+	.nav-link {
+		position: relative;
+		transition: color 0.3s ease;
+	}
+	
+	.nav-link:hover {
+		color: var(--accent-purple);
+	}
+	
+	.nav-link::after {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background: var(--accent-purple);
+		transition: width 0.3s ease;
+	}
+	
+	.nav-link:hover::after {
+		width: 100%;
+	}
+	/* Cards & Steps */
+	
+	.card-hover {
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.card-hover:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+	}
+	
+	.pricing-card {
+		transition: transform 0.3s ease;
+	}
+	
+	.pricing-card:hover {
+		transform: scale(1.03);
+	}
+	
+	.pricing-card.popular {
+		border: 2px solid var(--accent-purple);
+		position: relative;
+	}
+	
+	.pricing-card.popular::before {
+		content: 'POPULAR';
+		position: absolute;
+		top: -12px;
+		left: 50%;
+		transform: translateX(-50%);
+		background: var(--accent-purple);
+		color: var(--white);
+		padding: 4px 16px;
+		border-radius: 12px;
+		font-size: 10px;
+		font-weight: 600;
+	}
+	
+	.fade-in {
+		opacity: 0;
+		transform: translateY(20px);
+		transition: all 0.6s ease;
+	}
+	
+	.fade-in.visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	
+	.step-number {
+		width: 36px;
+		height: 36px;
+		background: var(--accent-purple);
+		color: var(--white);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 600;
+		position: absolute;
+		left: -18px;
+		top: 0;
+		font-size: 14px;
+	}
+	/* Footer */
+	
+	footer {
+		background: var(--dark-purple);
+	}
+	</style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-white shadow-md z-50">
-      <div class="container mx-auto px-6 py-4">
-        <div class="flex justify-between items-center">
-          <div class="text-2xl font-bold text-purple-700">Estelle Lee</div>
-          <div class="hidden md:flex space-x-8">
-            <a href="#about" class="nav-link text-gray-700 hover:text-purple-700">About</a>
-            <a href="#services" class="nav-link text-gray-700 hover:text-purple-700">Services</a>
-            <a href="#approach" class="nav-link text-gray-700 hover:text-purple-700">Approach</a>
-            <a href="#results" class="nav-link text-gray-700 hover:text-purple-700">Results</a>
-            <a href="#pricing" class="nav-link text-gray-700 hover:text-purple-700">Pricing</a>
-            <a href="#contact" class="nav-link text-gray-700 hover:text-purple-700">Contact</a>
-            <a href="/tools/" class="nav-link text-gray-700 hover:text-purple-700">Tools</a>
-          </div>
-          <button class="md:hidden" id="mobile-menu-button">
-            <i class="fas fa-bars text-2xl text-gray-700"></i>
-          </button>
-        </div>
-      </div>
 
-      <!-- Mobile Menu -->
-      <div class="hidden md-hidden bg-white border-t" id="mobile-menu">
-        <div class="px-6 py-4 space-y-3">
-          <a href="#about" class="block text-gray-700 hover:text-purple-700">About</a>
-          <a href="#services" class="block text-gray-700 hover:text-purple-700">Services</a>
-          <a href="#approach" class="block text-gray-700 hover:text-purple-700">Approach</a>
-          <a href="#results" class="block text-gray-700 hover:text-purple-700">Results</a>
-          <a href="#pricing" class="block text-gray-700 hover:text-purple-700">Pricing</a>
-          <a href="#contact" class="block text-gray-700 hover:text-purple-700">Contact</a>
-          <a href="/tools/" class="block text-gray-700 hover:text-purple-700">Tools</a>
-        </div>
-      </div>
-    </nav>
-    
-    <!-- Hero Section -->
-    <section class="gradient-bg text-white pt-24 pb-20 md:pt-32 md:pb-32 lg:pt-40 lg:pb-40">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center md:h-[500px]">
-                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-12 flex flex-col justify-center text-center md:text-left items-center md:items-start">
-                    <h1 class="text-4xl md:text-4xl lg:text-5xl font-bold mb-6 leading-normal md:leading-tight lg:leading-normal fade-in">Elevating Your Content Strategy for Tech, B2B & SaaS Success</h1>
-                    <div class="grid grid-cols-2 md:flex md:flex-row md:flex-nowrap gap-4 md:gap-x-12 mb-8 fade-in">
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-chart-line text-2xl mr-2"></i>
-                            <span>Brand Growth</span>
-                        </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-share-alt text-2xl mr-2"></i>
-                            <span>Social Media</span>
-                        </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-search text-2xl mr-2"></i>
-                            <span>SEO</span>
-                        </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-pen text-2xl mr-2"></i>
-                            <span>Content Creation</span>
-                        </div>
-                    </div>
-                    <!-- Updated Button with more dynamic styling -->
-                    <a href="https://forms.gle/qdzRt4PgvUYER8rr8" target="_blank"
-                       class="text-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 inline-flex items-center space-x-3 fade-in group">
-                        <span>Let's Connect</span>
-                        <i class="fas fa-arrow-right ml-2 transition-transform duration-300 transform group-hover:translate-x-1"></i>
-                    </a>
-                </div>
-                <!-- Replaced icon with image and added padding -->
-                <div class="md:w-1/2 flex justify-center items-center md:pl-12 md:h-full">
-                    <div class="relative">
-                        <div class="w-64 h-64 bg-white bg-opacity-20 rounded-full absolute -top-10 -right-10 float-animation"></div>
-                        <div class="w-72 h-72 bg-white bg-opacity-10 rounded-full absolute -bottom-10 -left-10 float-animation" style="animation-delay: 2s;"></div>
-                        <img src="https://ik.imagekit.io/sraboni190708/pfp%20-%20Copy.jpg" alt="Estelle Lee's profile picture" 
-                             class="w-64 h-64 md:w-72 md:h-72 object-cover rounded-full pulse-animation relative z-10"
-                             onerror="this.src='https://placehold.co/288x288/E5E7EB/4B5563?text=Image+Unavailable';">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Me Section -->
-    <section id="about" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in">About Me</h2>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="fade-in">
-                    <div class="space-y-6">
-                        <div class="flex items-center">
-                            <i class="fas fa-check-circle text-purple-700 text-2xl mr-4"></i>
-                            <div>
-                                <h3 class="font-semibold text-lg">5+ Years Experience</h3>
-                                <p class="text-gray-600">Digital content strategy and creation</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-newspaper text-purple-700 text-2xl mr-4"></i>
-                            <div>
-                                <h3 class="font-semibold text-lg">Published In</h3>
-                                <p class="text-gray-600">The Daily Star & Yahoo Finance</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-briefcase text-purple-700 text-2xl mr-4"></i>
-                            <div>
-                                <h3 class="font-semibold text-lg">Worked With</h3>
-                                <p class="text-gray-600">AirDroid, HitPaw, Xender</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-brain text-purple-700 text-2xl mr-4"></i>
-                            <div>
-                                <h3 class="font-semibold text-lg">Expertise</h3>
-                                <p class="text-gray-600">Content Writing, Virtual Assistance & Design</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Key Achievement moved here -->
-                    <div class="mt-8 fade-in">
-                        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl p-6">
-                            <h3 class="text-xl font-bold mb-2">Key Achievement</h3>
-                            <div class="text-4xl font-bold mb-2">600%</div>
-                            <p>Website Traffic Increase for AAA Security</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="fade-in">
-                    <div class="bg-white rounded-xl shadow-lg p-8">
-                        <h3 class="text-2xl font-bold mb-6 text-center">In-Demand Skills</h3>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-lightbulb text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Content Strategy</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-search text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">SEO</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-hashtag text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Social Media</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-language text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Multilingual</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-pen-fancy text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Copywriting</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-palette text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Graphic Design</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-chart-bar text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Analytics</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-microphone text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Brand Voice</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-users text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Community Mgmt</p>
-                            </div>
-                            <div class="text-center p-4 hover:bg-purple-50 rounded-lg transition duration-300">
-                                <i class="fas fa-envelope text-3xl text-purple-700 mb-2"></i>
-                                <p class="text-sm">Email Marketing</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in">My Services</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Content Strategy & SEO -->
-                <div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Content Strategy & SEO</h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Audience Research
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Competitor Analysis
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Keyword Strategy
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Content Gap Analysis
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Multilingual Content -->
-                <div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Multilingual Content</h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            English & Spanish Blogs
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Articles
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Web Copy
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Technical Writing
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Social Media Management -->
-                <div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-hashtag"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Social Media Management</h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Content Calendars
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Community Engagement
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Multi-Platform Strategy
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Graphic Design -->
-                <div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Graphic Design</h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Custom Graphics
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Infographics
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Social Media Visuals
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Brand Identity
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Virtual Assistance -->
-                <div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-laptop"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Virtual Assistance</h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Content Management
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Research
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Executive Support
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Project Coordination
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Complete Digital Solution -->
-                <div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Complete Digital Solution</h3>
-                    <ul class="space-y-2 text-gray-600">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Integrated Strategy
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            All Services
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Maximum Impact
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Consistent Branding
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Approach Section -->
-    <section id="approach" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in">My Approach</h2>
-            <div class="max-w-4xl mx-auto">
-                <div class="space-y-12">
-                    <!-- Step 1 -->
-                    <div class="approach-step fade-in">
-                        <div class="step-number">1</div>
-                        <div class="bg-white rounded-xl shadow-lg p-8">
-                            <div class="flex items-center mb-4">
-                                <i class="fas fa-search text-purple-700 text-3xl mr-4"></i>
-                                <h3 class="text-xl font-bold">Discovery & Research</h3>
-                            </div>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Business Analysis</h4>
-                                    <p class="text-sm text-gray-600">Understanding your business goals and challenges</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Audience Research</h4>
-                                    <p class="text-sm text-gray-600">Identifying your target audience and their needs</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Goal Definition</h4>
-                                    <p class="text-sm text-gray-600">Setting clear, measurable objectives</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="approach-step fade-in">
-                        <div class="step-number">2</div>
-                        <div class="bg-white rounded-xl shadow-lg p-8">
-                            <div class="flex items-center mb-4">
-                                <i class="fas fa-lightbulb text-purple-700 text-3xl mr-4"></i>
-                                <h3 class="text-xl font-bold">Strategic Planning</h3>
-                            </div>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Content Strategy</h4>
-                                    <p class="text-sm text-gray-600">Developing a comprehensive content roadmap</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Keyword Planning</h4>
-                                    <p class="text-sm text-gray-600">Identifying high-value keywords and topics</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Competitor Analysis</h4>
-                                    <p class="text-sm text-gray-600">Analyzing competitor strategies and opportunities</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="approach-step fade-in">
-                        <div class="step-number">3</div>
-                        <div class="bg-white rounded-xl shadow-lg p-8">
-                            <div class="flex items-center mb-4">
-                                <i class="fas fa-pen text-purple-700 text-3xl mr-4"></i>
-                                <h3 class="text-xl font-bold">Content Creation</h3>
-                            </div>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Copywriting</h4>
-                                    <p class="text-sm text-gray-600">Crafting compelling, SEO-optimized content</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Visual Design</h4>
-                                    <p class="text-sm text-gray-600">Creating engaging graphics and visuals</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Brand Alignment</h4>
-                                    <p class="text-sm text-gray-600">Ensuring consistency with brand voice</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="approach-step fade-in">
-                        <div class="step-number">4</div>
-                        <div class="bg-white rounded-xl shadow-lg p-8">
-                            <div class="flex items-center mb-4">
-                                <i class="fas fa-share-alt text-purple-700 text-3xl mr-4"></i>
-                                <h3 class="text-xl font-bold">Multi-Channel Distribution</h3>
-                            </div>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Social Media</h4>
-                                    <p class="text-sm text-gray-600">Strategic posting across platforms</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Email Marketing</h4>
-                                    <p class="text-sm text-gray-600">Engaging email campaigns</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Content Platforms</h4>
-                                    <p class="text-sm text-gray-600">Optimizing for various content channels</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 5 -->
-                    <div class="approach-step fade-in">
-                        <div class="step-number">5</div>
-                        <div class="bg-white rounded-xl shadow-lg p-8">
-                            <div class="flex items-center mb-4">
-                                <i class="fas fa-chart-line text-purple-700 text-3xl mr-4"></i>
-                                <h3 class="text-xl font-bold">Performance Analysis</h3>
-                            </div>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Metrics Tracking</h4>
-                                    <p class="text-sm text-gray-600">Monitoring key performance indicators</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">ROI Analysis</h4>
-                                    <p class="text-sm text-gray-600">Measuring return on investment</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">KPI Monitoring</h4>
-                                    <p class="text-sm text-gray-600">Tracking progress towards goals</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 6 -->
-                    <div class="approach-step fade-in">
-                        <div class="step-number">6</div>
-                        <div class="bg-white rounded-xl shadow-lg p-8">
-                            <div class="flex items-center mb-4">
-                                <i class="fas fa-sync-alt text-purple-700 text-3xl mr-4"></i>
-                                <h3 class="text-xl font-bold">Continuous Improvement</h3>
-                            </div>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Strategy Refinement</h4>
-                                    <p class="text-sm text-gray-600">Adjusting based on performance data</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">A/B Testing</h4>
-                                    <p class="text-sm text-gray-600">Testing different approaches</p>
-                                </div>
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold mb-2">Growth Hacking</h4>
-                                    <p class="text-sm text-gray-600">Implementing innovative growth tactics</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results Section -->
-    <section id="results" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in">Client Testimonials</h2>
-            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <p class="text-gray-600 mb-4">"I just met Mahbuba this morning, but I'm highly recommending her. Why? I've seen her work — specifically applied to my own — and it's amazing. She took a complex and innovative concept and distilled it so people can understand it. That's powerful. If you have content needs, hit her up. You'll love working with her!"</p>
-                    <p class="text-gray-500 text-sm mt-auto">— Dru Lodestone, Autism Research Consultant, UVM (via LinkedIn)</p>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <p class="text-gray-600 mb-4">"Excellent work! The writer delivered high-quality, well-researched content on time. Communication was smooth, and revisions were handled professionally. Highly recommended!"</p>
-                    <p class="text-gray-500 text-sm mt-auto">— Abbie, AirDroid</p>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <p class="text-gray-600 mb-4">"Thanks to Lee for the effort and quality of the article (including details, experience, visual effects), and for responding promptly to revisions and recommending contact."</p>
-                    <p class="text-gray-500 text-sm mt-auto">— Monica, Vidnoz & Vidwud</p>
-                </div>
-
-                <!-- Testimonial 4 -->
-                <div class="testimonial-card fade-in">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <p class="text-gray-600 mb-4">"Once again, went above and beyond. This is the second time working with Estelle and definitely won't be the last. The work is immaculate and perfect every time. Careful attention and actual care is put into the work. Extremely and highly recommended!!!"</p>
-                    <p class="text-gray-500 text-sm mt-auto">— Sahooka, Professional Academic Writer</p>
-                </div>
-
-                <!-- Testimonial 5 -->
-                <div class="testimonial-card fade-in md:col-span-2">
-                    <div class="text-purple-700 text-4xl mb-4">
-                        <i class="fas fa-quote-left"></i>
-                    </div>
-                    <p class="text-gray-600 mb-4">"Excellent first experience with Estelle. She delivered my order much quicker than expected and took the time to go in depth to answer questions and ensure consistency. Definitely looking forward to working with her again!"</p>
-                    <p class="text-gray-500 text-sm mt-auto">— Caleb, Editor & Writer</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-20">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 fade-in">Investment Options</h2>
-            <p class="text-center text-gray-600 mb-16 fade-in">Custom packages available based on specific needs and goals</p>
-            
-            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Content Creator -->
-                <div class="pricing-card bg-white rounded-xl shadow-lg p-8 fade-in">
-                    <h3 class="text-2xl font-bold mb-2">Content Creator</h3>
-                    <div class="text-4xl font-bold text-purple-700 mb-6">$500 <span class="text-lg text-gray-600">/month</span></div>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Content audit
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Basic content strategy
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            4 blog posts/month
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Social media content
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Monthly report
-                        </li>
-                    </ul>
-                    <a href="https://forms.gle/U5j1bFS4MfPt9ryj6" target="_blank" class="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-300 inline-block text-center">
-                        Select Package
-                    </a>
-                </div>
-
-                <!-- Content Strategist -->
-                <div class="pricing-card popular bg-white rounded-xl shadow-lg p-8 fade-in">
-                    <h3 class="text-2xl font-bold mb-2">Content Strategist</h3>
-                    <div class="text-4xl font-bold text-purple-700 mb-6">$1500 <span class="text-lg text-gray-600">/month</span></div>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Comprehensive audit
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Detailed strategy
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            8 blog posts/month
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Social media management
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            SEO optimization
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Custom graphics
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Bi-weekly reports
-                        </li>
-                    </ul>
-                    <a href="https://forms.gle/U5j1bFS4MfPt9ryj6" target="_blank" class="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-300 inline-block text-center">
-                        Select Package
-                    </a>
-                </div>
-
-                <!-- Full-Service Partner -->
-                <div class="pricing-card bg-white rounded-xl shadow-lg p-8 fade-in">
-                    <h3 class="text-2xl font-bold mb-2">Full-Service Partner</h3>
-                    <div class="text-4xl font-bold text-purple-700 mb-6">$3000 <span class="text-lg text-gray-600">/month</span></div>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Complete audit & strategy
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            12+ blog posts/month
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Social media management
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Email marketing
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            SEO optimization
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Graphic design
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Virtual assistance
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Weekly reports
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-purple-700 mr-2"></i>
-                            Dedicated support
-                        </li>
-                    </ul>
-                    <a href="https://forms.gle/U5j1bFS4MfPt9ryj6" target="_blank" class="w-full bg-purple-700 text-white py-3 rounded-lg font-semibold hover:bg-purple-800 transition duration-300 inline-block text-center">
-                        Select Package
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 fade-in">Let's Connect</h2>
-                <p class="text-xl text-gray-600 mb-12 fade-in">Elevate Your Strategy</p>
-                
-                <div class="bg-white rounded-xl shadow-lg p-8 md:p-12 fade-in">
-                    <div class="grid md:grid-cols-2 gap-8 mb-8">
-                        <div class="text-left">
-                            <a href="mailto:sraboni190708@gmail.com" class="flex items-center mb-6 hover:text-purple-700 transition duration-300">
-                                <i class="fas fa-envelope text-purple-700 text-2xl mr-4"></i>
-                                <div>
-                                    <h3 class="font-semibold">Email</h3>
-                                    <p class="text-gray-600">sraboni190708@gmail.com</p>
-                                </div>
-                            </a>
-                            <a href="https://wa.me/+8801902705048" target="_blank" class="flex items-center mb-6 hover:text-purple-700 transition duration-300">
-                                <i class="fas fa-phone text-purple-700 text-2xl mr-4"></i>
-                                <div>
-                                    <h3 class="font-semibold">WhatsApp</h3>
-                                    <p class="text-gray-600">+8801902705048</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="text-left">
-                            <a href="https://fiverr.com/sraboni190708" target="_blank" class="flex items-center mb-6 hover:text-purple-700 transition duration-300">
-                                <i class="fas fa-shopping-bag text-purple-700 text-2xl mr-4"></i>
-                                <div>
-                                    <h3 class="font-semibold">Fiverr</h3>
-                                    <p class="text-gray-600">fiverr.com/sraboni190708</p>
-                                </div>
-                            </a>
-                            <a href="https://www.linkedin.com/in/estelle-lee-mahbuba-rahman-sraboni/" target="_blank" class="flex items-center mb-6 hover:text-purple-700 transition duration-300">
-                                <i class="fab fa-linkedin text-purple-700 text-2xl mr-4"></i>
-                                <div>
-                                    <h3 class="font-semibold">LinkedIn</h3>
-                                    <p class="text-gray-600">linkedin.com/in/estelle-lee</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <a href="https://forms.gle/qdzRt4PgvUYER8rr8" target="_blank" class="bg-purple-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-purple-800 transition duration-300 inline-block">
-                            Contact Me
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; Estelle Lee - Digital Content Strategist. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-    
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-    
-            // Fade-in animation on scroll
-            const fadeInElements = document.querySelectorAll('.fade-in');
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-    
-            fadeInElements.forEach(el => observer.observe(el));
-            
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
+<body>
+	<!-- NAV -->
+	<nav class="fixed top-0 w-full bg-white shadow z-50">
+		<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+			<div class="text-2xl font-bold" style="color: var(--dark-purple)"> Estelle Lee </div>
+			<div class="hidden md:flex space-x-8"> <a href="#about" class="nav-link text-gray-700">About</a> <a href="#services" class="nav-link text-gray-700">Services</a> <a href="#approach" class="nav-link text-gray-700">Approach</a> <a href="#results" class="nav-link text-gray-700">Results</a> <a href="#pricing" class="nav-link text-gray-700">Pricing</a> <a href="#contact" class="nav-link text-gray-700">Contact</a> <a href="/tools/" class="nav-link text-gray-700">Tools</a> </div>
+			<button class="md:hidden" id="mobile-menu-button"> <i class="fas fa-bars text-xl text-gray-700"></i> </button>
+		</div>
+		<div class="hidden bg-white border-t" id="mobile-menu">
+			<div class="px-6 py-4 space-y-3"> <a href="#about" class="block text-gray-700">About</a> <a href="#services" class="block text-gray-700">Services</a> <a href="#approach" class="block text-gray-700">Approach</a> <a href="#results" class="block text-gray-700">Results</a> <a href="#pricing" class="block text-gray-700">Pricing</a> <a href="#contact" class="block text-gray-700">Contact</a> <a href="/tools/" class="block text-gray-700">Tools</a> </div>
+		</div>
+	</nav>
+	<!-- HERO -->
+	<section class="gradient-bg text-white pt-24 pb-20 md:pt-32 md:pb-32">
+		<div class="container mx-auto px-6 flex flex-col md:flex-row items-center">
+			<div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0 fade-in">
+				<h1 class="text-4xl lg:text-5xl font-bold mb-6">
+          Elevating Your Content Strategy for Tech, B2B & SaaS Success
+        </h1>
+				<div class="grid grid-cols-2 md:flex md:space-x-12 gap-4 mb-8">
+					<div class="flex items-center justify-center md:justify-start"> <i class="fas fa-chart-line text-2xl mr-2" style="color: var(--white)"></i> <span>Brand Growth</span> </div>
+					<div class="flex items-center justify-center md:justify-start"> <i class="fas fa-share-alt text-2xl mr-2"></i> <span>Social Media</span> </div>
+					<div class="flex items-center justify-center md:justify-start"> <i class="fas fa-search text-2xl mr-2"></i> <span>SEO</span> </div>
+					<div class="flex items-center justify-center md:justify-start"> <i class="fas fa-pen text-2xl mr-2"></i> <span>Content Creation</span> </div>
+				</div>
+				<a href="https://forms.gle/qdzRt4PgvUYER8rr8" target="_blank" class="inline-flex items-center space-x-3 bg-gradient-to-r from-[#3c1e4f] to-[#9658a1] px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition transform hover:scale-105"> <span>Let's Connect</span> <i class="fas fa-arrow-right"></i> </a>
+			</div>
+			<div class="md:w-1/2 flex justify-center">
+				<div class="relative">
+					<div class="absolute -top-10 -right-10 w-64 h-64 rounded-full bg-white bg-opacity-20 animate-float"></div>
+					<div class="absolute -bottom-10 -left-10 w-72 h-72 rounded-full bg-white bg-opacity-10 animate-float animation-delay-2000"></div> <img src="https://ik.imagekit.io/sraboni190708/pfp%20-%20Copy.jpg" alt="Estelle Lee" class="relative z-10 w-64 h-64 md:w-72 md:h-72 rounded-full object-cover animate-pulse" onerror="this.src='https://placehold.co/288x288/f7f2fa/3c1e4f?text=No+Image';" /> </div>
+			</div>
+		</div>
+	</section>
+	<!-- ABOUT -->
+	<section id="about" class="py-20">
+		<div class="container mx-auto px-6">
+			<h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in">About Me</h2>
+			<div class="grid md:grid-cols-2 gap-12 items-center">
+				<div class="space-y-6 fade-in">
+					<div class="flex items-center"> <i class="fas fa-check-circle text-2xl mr-4" style="color: var(--accent-purple)"></i>
+						<div>
+							<h3 class="font-semibold text-lg">5+ Years Experience</h3>
+							<p class="text-gray-600">Digital content strategy and creation</p>
+						</div>
+					</div>
+					<div class="flex items-center"> <i class="fas fa-newspaper text-2xl mr-4" style="color: var(--accent-purple)"></i>
+						<div>
+							<h3 class="font-semibold text-lg">Published In</h3>
+							<p class="text-gray-600">The Daily Star & Yahoo Finance</p>
+						</div>
+					</div>
+					<div class="flex items-center"> <i class="fas fa-briefcase text-2xl mr-4" style="color: var(--accent-purple)"></i>
+						<div>
+							<h3 class="font-semibold text-lg">Worked With</h3>
+							<p class="text-gray-600">AirDroid, HitPaw, Xender</p>
+						</div>
+					</div>
+					<div class="flex items-center"> <i class="fas fa-brain text-2xl mr-4" style="color: var(--accent-purple)"></i>
+						<div>
+							<h3 class="font-semibold text-lg">Expertise</h3>
+							<p class="text-gray-600">Content Writing, Virtual Assistance & Design</p>
+						</div>
+					</div>
+					<!-- Updated Key Achievement -->
+					<div class="mt-8 fade-in">
+						<div class="bg-gradient-to-r from-[#3c1e4f] to-[#9658a1] text-white rounded-2xl p-6">
+							<h3 class="text-xl font-bold mb-2">Key Achievement</h3>
+							<p class="text-4xl font-bold mb-2">2400%+ Organic Traffic Growth</p>
+							<p class="text-sm leading-tight"> Led content strategy for AAA Security Guard Services, growing organic traffic from scratch to 2400% monthly visits by July 2025. Achieved 3,033 keyword rankings and 760 SERP features, with 94% traffic from the U.S.—all through organic content and backlinks. </p>
+						</div>
+					</div>
+				</div>
+				<div class="fade-in">
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<h3 class="text-2xl font-bold text-center mb-6">In-Demand Skills</h3>
+						<div class="grid grid-cols-3 gap-4">
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-lightbulb text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Content Strategy</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-search text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">SEO</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-hashtag text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Social Media</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-language text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Multilingual</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-pen-fancy text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Copywriting</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-palette text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Graphic Design</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-chart-bar text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Analytics</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-microphone text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Brand Voice</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-users text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Community Mgmt</p>
+							</div>
+							<div class="text-center p-4 hover:bg-[#f7f2fa] rounded-lg transition"> <i class="fas fa-envelope text-3xl mb-2" style="color: var(--accent-purple)"></i>
+								<p class="text-sm">Email Marketing</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- SERVICES -->
+	<section id="services" class="py-20 bg-[#f7f2fa]">
+		<div class="container mx-auto px-6">
+			<h2 class="text-3xl md:text-4xl font-bold text-center mb-16 fade-in">My Services</h2>
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<!-- Each card: update icons to accent-purple -->
+				<div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in"> <i class="fas fa-lightbulb text-4xl mb-4" style="color: var(--accent-purple)"></i>
+					<h3 class="text-xl font-bold mb-4">Content Strategy & SEO</h3>
+					<ul class="space-y-2 text-gray-600">
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Audience Research </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Competitor Analysis </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Keyword Strategy </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Content Gap Analysis </li>
+					</ul>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in"> <i class="fas fa-language text-4xl mb-4" style="color: var(--accent-purple)"></i>
+					<h3 class="text-xl font-bold mb-4">Multilingual Content</h3>
+					<ul class="space-y-2 text-gray-600">
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> English & Spanish Blogs </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Articles </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Web Copy </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Technical Writing </li>
+					</ul>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in"> <i class="fas fa-hashtag text-4xl mb-4" style="color: var(--accent-purple)"></i>
+					<h3 class="text-xl font-bold mb-4">Social Media Management</h3>
+					<ul class="space-y-2 text-gray-600">
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Content Calendars </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Community Engagement </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Multi-Platform Strategy </li>
+					</ul>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in"> <i class="fas fa-palette text-4xl mb-4" style="color: var(--accent-purple)"></i>
+					<h3 class="text-xl font-bold mb-4">Graphic Design</h3>
+					<ul class="space-y-2 text-gray-600">
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Custom Graphics </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Infographics </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Social Media Visuals </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Brand Identity </li>
+					</ul>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in"> <i class="fas fa-laptop text-4xl mb-4" style="color: var(--accent-purple)"></i>
+					<h3 class="text-xl font-bold mb-4">Virtual Assistance</h3>
+					<ul class="space-y-2 text-gray-600">
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Content Management </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Research </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Executive Support </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Project Coordination </li>
+					</ul>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-8 card-hover fade-in"> <i class="fas fa-rocket text-4xl mb-4" style="color: var(--accent-purple)"></i>
+					<h3 class="text-xl font-bold mb-4">Complete Digital Solution</h3>
+					<ul class="space-y-2 text-gray-600">
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Integrated Strategy </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> All Services </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Maximum Impact </li>
+						<li class="flex items-center"> <i class="fas fa-check text-xl mr-2" style="color: var(--accent-purple)"></i> Consistent Branding </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- APPROACH -->
+		<section id="approach" class="py-20">
+			<div class="container mx-auto px-6">
+				<h2 class="text-3xl lg:text-4xl font-bold text-center mb-16 fade-in">My Approach</h2>
+				<div class="max-w-4xl mx-auto space-y-12">
+					<!-- Step 1 -->
+					<div class="relative pl-12 fade-in">
+						<div class="step-number">1</div>
+						<div class="bg-white rounded-xl shadow-lg p-8">
+							<div class="flex items-center mb-4"> <i class="fas fa-search text-primary text-3xl mr-4"></i>
+								<h3 class="text-xl font-bold">Discovery & Research</h3> </div>
+							<div class="grid md:grid-cols-3 gap-4">
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Business Analysis</h4>
+									<p class="text-sm text-gray-600">Understanding your business goals and challenges</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Audience Research</h4>
+									<p class="text-sm text-gray-600">Identifying your target audience and their needs</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Goal Definition</h4>
+									<p class="text-sm text-gray-600">Setting clear, measurable objectives</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Step 2 -->
+					<div class="relative pl-12 fade-in">
+						<div class="step-number">2</div>
+						<div class="bg-white rounded-xl shadow-lg p-8">
+							<div class="flex items-center mb-4"> <i class="fas fa-lightbulb text-primary text-3xl mr-4"></i>
+								<h3 class="text-xl font-bold">Strategic Planning</h3> </div>
+							<div class="grid md:grid-cols-3 gap-4">
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Content Strategy</h4>
+									<p class="text-sm text-gray-600">Developing a comprehensive content roadmap</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Keyword Planning</h4>
+									<p class="text-sm text-gray-600">Identifying high-value keywords and topics</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Competitor Analysis</h4>
+									<p class="text-sm text-gray-600">Analyzing competitor strategies and opportunities</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Step 3 -->
+					<div class="relative pl-12 fade-in">
+						<div class="step-number">3</div>
+						<div class="bg-white rounded-xl shadow-lg p-8">
+							<div class="flex items-center mb-4"> <i class="fas fa-pen text-primary text-3xl mr-4"></i>
+								<h3 class="text-xl font-bold">Content Creation</h3> </div>
+							<div class="grid md:grid-cols-3 gap-4">
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Copywriting</h4>
+									<p class="text-sm text-gray-600">Crafting compelling, SEO-optimized content</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Visual Design</h4>
+									<p class="text-sm text-gray-600">Creating engaging graphics and visuals</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Brand Alignment</h4>
+									<p class="text-sm text-gray-600">Ensuring consistency with brand voice</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Step 4 -->
+					<div class="relative pl-12 fade-in">
+						<div class="step-number">4</div>
+						<div class="bg-white rounded-xl shadow-lg p-8">
+							<div class="flex items-center mb-4"> <i class="fas fa-share-alt text-primary text-3xl mr-4"></i>
+								<h3 class="text-xl font-bold">Multi-Channel Distribution</h3> </div>
+							<div class="grid md:grid-cols-3 gap-4">
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Social Media</h4>
+									<p class="text-sm text-gray-600">Strategic posting across platforms</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Email Marketing</h4>
+									<p class="text-sm text-gray-600">Engaging email campaigns</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Content Platforms</h4>
+									<p class="text-sm text-gray-600">Optimizing for various content channels</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Step 5 -->
+					<div class="relative pl-12 fade-in">
+						<div class="step-number">5</div>
+						<div class="bg-white rounded-xl shadow-lg p-8">
+							<div class="flex items-center mb-4"> <i class="fas fa-chart-line text-primary text-3xl mr-4"></i>
+								<h3 class="text-xl font-bold">Performance Analysis</h3> </div>
+							<div class="grid md:grid-cols-3 gap-4">
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Metrics Tracking</h4>
+									<p class="text-sm text-gray-600">Monitoring key performance indicators</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">ROI Analysis</h4>
+									<p class="text-sm text-gray-600">Measuring return on investment</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">KPI Monitoring</h4>
+									<p class="text-sm text-gray-600">Tracking progress towards goals</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Step 6 -->
+					<div class="relative pl-12 fade-in">
+						<div class="step-number">6</div>
+						<div class="bg-white rounded-xl shadow-lg p-8">
+							<div class="flex items-center mb-4"> <i class="fas fa-sync-alt text-primary text-3xl mr-4"></i>
+								<h3 class="text-xl font-bold">Continuous Improvement</h3> </div>
+							<div class="grid md:grid-cols-3 gap-4">
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Strategy Refinement</h4>
+									<p class="text-sm text-gray-600">Adjusting based on performance data</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">A/B Testing</h4>
+									<p class="text-sm text-gray-600">Testing different approaches</p>
+								</div>
+								<div class="bg-lightest p-4 rounded-lg">
+									<h4 class="font-semibold mb-2">Growth Hacking</h4>
+									<p class="text-sm text-gray-600">Implementing innovative growth tactics</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- RESULTS -->
+		<section id="results" class="py-20 bg-lightest">
+			<div class="container mx-auto px-6">
+				<h2 class="text-3xl lg:text-4xl font-bold text-center mb-16 fade-in">Client Testimonials</h2>
+				<div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+					<div class="testimonial-card fade-in"> <i class="fas fa-quote-left text-primary text-4xl mb-4"></i>
+						<p class="text-gray-600 mb-4">"Mahbuba distilled a complex concept into clear, compelling content—amazing work!"</p>
+						<p class="text-gray-500 text-sm">— Dru Lodestone, Autism Research Consultant</p>
+					</div>
+					<div class="testimonial-card fade-in"> <i class="fas fa-quote-left text-primary text-4xl mb-4"></i>
+						<p class="text-gray-600 mb-4">"High-quality, on-time, professional revisions—highly recommended."</p>
+						<p class="text-gray-500 text-sm">— Abbie, AirDroid</p>
+					</div>
+					<div class="testimonial-card fade-in"> <i class="fas fa-quote-left text-primary text-4xl mb-4"></i>
+						<p class="text-gray-600 mb-4">"Exceptional attention to detail and responsiveness."</p>
+						<p class="text-gray-500 text-sm">— Monica, Vidnoz & Vidwud</p>
+					</div>
+					<div class="testimonial-card fade-in"> <i class="fas fa-quote-left text-primary text-4xl mb-4"></i>
+						<p class="text-gray-600 mb-4">"Above and beyond every time—immaculate work."</p>
+						<p class="text-gray-500 text-sm">— Sahooka, Academic Writer</p>
+					</div>
+					<div class="testimonial-card fade-in md:col-span-2"> <i class="fas fa-quote-left text-primary text-4xl mb-4"></i>
+						<p class="text-gray-600 mb-4">"Quick turnaround, in-depth answers, and consistency—looking forward to more!"</p>
+						<p class="text-gray-500 text-sm">— Caleb, Editor & Writer</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- PRICING -->
+		<section id="pricing" class="py-20">
+			<div class="container mx-auto px-6">
+				<h2 class="text-3xl lg:text-4xl font-bold text-center mb-4 fade-in">Investment Options</h2>
+				<p class="text-center text-gray-600 mb-16 fade-in">Custom packages based on your goals</p>
+				<div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+					<!-- Content Creator -->
+					<div class="pricing-card bg-white rounded-xl shadow-lg p-8 fade-in">
+						<h3 class="text-2xl font-bold mb-2">Content Creator</h3>
+						<div class="text-4xl font-bold text-primary mb-6">$500<span class="text-lg text-gray-600">/mo</span></div>
+						<ul class="space-y-3 mb-8 text-gray-600">
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Content audit</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Basic strategy</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>4 blogs/mo</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Social posts</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Monthly report</li>
+						</ul> <a href="https://forms.gle/U5j1bFS4MfPt9ryj6" target="_blank" class="block w-full py-3 text-center bg-primary text-white rounded-lg hover:bg-accent transition fade-in">
+              Select Package
+            </a> </div>
+					<!-- Content Strategist (Popular) -->
+					<div class="pricing-card popular bg-white rounded-xl shadow-lg p-8 fade-in">
+						<h3 class="text-2xl font-bold mb-2">Content Strategist</h3>
+						<div class="text-4xl font-bold text-primary mb-6">$1,500<span class="text-lg text-gray-600">/mo</span></div>
+						<ul class="space-y-3 mb-8 text-gray-600">
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Comprehensive audit</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Detailed strategy</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>8 blogs/mo</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Social management</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>SEO optimization</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Custom graphics</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Bi-weekly reports</li>
+						</ul> <a href="https://forms.gle/U5j1bFS4MfPt9ryj6" target="_blank" class="block w-full py-3 text-center bg-primary text-white rounded-lg hover:bg-accent transition fade-in">
+              Select Package
+            </a> </div>
+					<!-- Full-Service Partner -->
+					<div class="pricing-card bg-white rounded-xl shadow-lg p-8 fade-in">
+						<h3 class="text-2xl font-bold mb-2">Full-Service Partner</h3>
+						<div class="text-4xl font-bold text-primary mb-6">$3,000<span class="text-lg text-gray-600">/mo</span></div>
+						<ul class="space-y-3 mb-8 text-gray-600">
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Complete audit & strategy</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>12+ blogs/mo</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Social management</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Email marketing</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>SEO optimization</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Graphic design</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Virtual assistance</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Weekly reports</li>
+							<li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i>Dedicated support</li>
+						</ul> <a href="https://forms.gle/U5j1bFS4MfPt9ryj6" target="_blank" class="block w-full py-3 text-center bg-primary text-white rounded-lg hover:bg-accent transition fade-in">
+              Select Package
+            </a> </div>
+				</div>
+			</div>
+		</section>
+		<!-- CONTACT -->
+		<section id="contact" class="py-20 bg-lightest">
+			<div class="container mx-auto px-6">
+				<div class="max-w-2xl mx-auto text-center space-y-6 fade-in">
+					<h2 class="text-3xl lg:text-4xl font-bold">Let's Connect</h2>
+					<p class="text-lg text-gray-600">Elevate your strategy with a conversation.</p>
+					<div class="bg-white rounded-xl shadow-lg p-8">
+						<div class="grid md:grid-cols-2 gap-8 mb-8 text-left">
+							<a href="mailto:sraboni190708@gmail.com" class="flex items-center hover:text-primary transition"> <i class="fas fa-envelope text-primary text-2xl mr-4"></i>
+								<div>
+									<h3 class="font-semibold">Email</h3>
+									<p class="text-gray-600">sraboni190708@gmail.com</p>
+								</div>
+							</a>
+							<a href="https://wa.me/+8801902705048" target="_blank" class="flex items-center hover:text-primary transition"> <i class="fas fa-phone text-primary text-2xl mr-4"></i>
+								<div>
+									<h3 class="font-semibold">WhatsApp</h3>
+									<p class="text-gray-600">+880 1902 705048</p>
+								</div>
+							</a>
+							<a href="https://fiverr.com/sraboni190708" target="_blank" class="flex items-center hover:text-primary transition"> <i class="fas fa-shopping-bag text-primary text-2xl mr-4"></i>
+								<div>
+									<h3 class="font-semibold">Fiverr</h3>
+									<p class="text-gray-600">fiverr.com/sraboni190708</p>
+								</div>
+							</a>
+							<a href="https://linkedin.com/in/estelle-lee-mahbuba-rahman-sraboni" target="_blank" class="flex items-center hover:text-primary transition"> <i class="fab fa-linkedin text-primary text-2xl mr-4"></i>
+								<div>
+									<h3 class="font-semibold">LinkedIn</h3>
+									<p class="text-gray-600">linkedin.com/in/estelle-lee</p>
+								</div>
+							</a>
+						</div> <a href="https://forms.gle/qdzRt4PgvUYER8rr8" target="_blank" class="inline-block bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-accent transition fade-in">
+              Send a Message
+            </a> </div>
+				</div>
+			</div>
+		</section>
+		<!-- FOOTER -->
+		<footer class="py-8 bg-primary text-white">
+			<div class="container mx-auto px-6 text-center fade-in"> &copy; Estelle Lee - Digital Content Strategist. All rights reserved. </div>
+		</footer>
+		<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			// mobile menu
+			const btn = document.getElementById('mobile-menu-button'),
+				menu = document.getElementById('mobile-menu');
+			btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+			// fade-in on scroll
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(e => {
+					if(e.isIntersecting) {
+						e.target.classList.add('visible');
+						observer.unobserve(e.target);
+					}
+				});
+			}, {
+				threshold: 0.1
+			});
+			document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+		});
+		</script>
 </body>
+
 </html>
-
-
