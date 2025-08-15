@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Ratio Font Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: linear-gradient(to bottom right, #9658a1, #f7f2fa);
+        }
+    </style>
+</head>
+<body class="text-[#f7f2fa] flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-[#3c1e4f] p-8 rounded-2xl shadow-xl max-w-lg w-full transform transition-all duration-300">
+        <!-- Title -->
+        <h1 class="text-3xl font-bold text-center mb-6 text-[#f7f2fa]">Golden Ratio Font Calculator</h1>
+
+        <!-- Input Section -->
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
+            <div class="w-full sm:w-1/2">
+                <label for="baseFontSize" class="block text-sm font-medium mb-1 text-[#f7f2fa]">Base Font Size (e.g., 16)</label>
+                <input type="number" id="baseFontSize" value="16" class="w-full p-3 rounded-xl bg-[#5e3870] border-2 border-[#f7f2fa] focus:border-[#f7f2fa] focus:outline-none text-[#f7f2fa] transition-colors duration-200" step="0.1">
+            </div>
+            <div class="w-full sm:w-1/2">
+                <label for="baseFontType" class="block text-sm font-medium mb-1 text-[#f7f2fa]">This Font Size Is For:</label>
+                <select id="baseFontType" class="w-full p-3 rounded-xl bg-[#5e3870] border-2 border-[#f7f2fa] focus:border-[#f7f2fa] focus:outline-none text-[#f7f2fa] transition-colors duration-200 appearance-none">
+                    <option value="body">Body Text</option>
+                    <option value="small">Small Text</option>
+                    <option value="subheading">Subheading</option>
+                    <option value="heading">Heading</option>
+                    <option value="title">Title</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Title Card -->
+            <div class="bg-[#5e3870] p-4 rounded-xl shadow-md border border-[#9658a1]">
+                <h3 class="text-sm font-medium text-[#f7f2fa] mb-1">Title</h3>
+                <p id="titleSize" class="text-xl font-bold text-[#f7f2fa]">--</p>
+            </div>
+
+            <!-- Heading Card -->
+            <div class="bg-[#5e3870] p-4 rounded-xl shadow-md border border-[#9658a1]">
+                <h3 class="text-sm font-medium text-[#f7f2fa] mb-1">Heading</h3>
+                <p id="headingSize" class="text-xl font-bold text-[#f7f2fa]">--</p>
+            </div>
+            
+            <!-- Big Subheading Card -->
+            <div class="bg-[#5e3870] p-4 rounded-xl shadow-md border border-[#9658a1]">
+                <h3 class="text-sm font-medium text-[#f7f2fa] mb-1">Big Subheading</h3>
+                <p id="bigSubheadingSize" class="text-xl font-bold text-[#f7f2fa]">--</p>
+            </div>
+
+            <!-- Subheading Card -->
+            <div class="bg-[#5e3870] p-4 rounded-xl shadow-md border border-[#9658a1]">
+                <h3 class="text-sm font-medium text-[#f7f2fa] mb-1">Subheading</h3>
+                <p id="subheadingSize" class="text-xl font-bold text-[#f7f2fa]">--</p>
+            </div>
+
+            <!-- Body Text Card -->
+            <div class="bg-[#5e3870] p-4 rounded-xl shadow-md border border-[#9658a1]">
+                <h3 class="text-sm font-medium text-[#f7f2fa] mb-1">Body Text</h3>
+                <p id="bodyTextSize" class="text-xl font-bold text-[#f7f2fa]">--</p>
+            </div>
+
+            <!-- Small Text Card -->
+            <div class="bg-[#5e3870] p-4 rounded-xl shadow-md border border-[#9658a1]">
+                <h3 class="text-sm font-medium text-[#f7f2fa] mb-1">Small Text</h3>
+                <p id="smallTextSize" class="text-xl font-bold text-[#f7f2fa]">--</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for the window to fully load before running the script
+        window.onload = function() {
+
+            // Get references to all the HTML elements we need to interact with
+            const baseFontSizeInput = document.getElementById('baseFontSize');
+            const baseFontTypeSelect = document.getElementById('baseFontType');
+
+            const titleSizeElement = document.getElementById('titleSize');
+            const headingSizeElement = document.getElementById('headingSize');
+            const bigSubheadingSizeElement = document.getElementById('bigSubheadingSize');
+            const subheadingSizeElement = document.getElementById('subheadingSize');
+            const bodyTextSizeElement = document.getElementById('bodyTextSize');
+            const smallTextSizeElement = document.getElementById('smallTextSize');
+
+            // Define the golden ratio constant
+            const GOLDEN_RATIO = 1.618;
+            // The square root of the golden ratio for a middle ground
+            const BIG_SUBHEADING_RATIO = 1.272; 
+
+            // This function performs all the calculations and updates the UI
+            const calculateFontSizes = () => {
+                // Get the user's input value and type, converting the size to a number
+                const baseSize = parseFloat(baseFontSizeInput.value);
+                const baseType = baseFontTypeSelect.value;
+
+                // If the base size is not a valid number, we can't do anything, so we'll just return
+                if (isNaN(baseSize) || baseSize <= 0) {
+                    titleSizeElement.textContent = '--';
+                    headingSizeElement.textContent = '--';
+                    bigSubheadingSizeElement.textContent = '--';
+                    subheadingSizeElement.textContent = '--';
+                    bodyTextSizeElement.textContent = '--';
+                    smallTextSizeElement.textContent = '--';
+                    return;
+                }
+
+                let title, heading, subheading, bodyText, smallText;
+
+                // Determine the base and calculate all other values based on the selected type
+                switch(baseType) {
+                    case 'title':
+                        title = baseSize;
+                        heading = title / GOLDEN_RATIO;
+                        subheading = heading / GOLDEN_RATIO;
+                        bodyText = subheading / GOLDEN_RATIO;
+                        smallText = bodyText / GOLDEN_RATIO;
+                        break;
+                    case 'heading':
+                        heading = baseSize;
+                        title = heading * GOLDEN_RATIO;
+                        subheading = heading / GOLDEN_RATIO;
+                        bodyText = subheading / GOLDEN_RATIO;
+                        smallText = bodyText / GOLDEN_RATIO;
+                        break;
+                    case 'subheading':
+                        subheading = baseSize;
+                        heading = subheading * GOLDEN_RATIO;
+                        title = heading * GOLDEN_RATIO;
+                        bodyText = subheading / GOLDEN_RATIO;
+                        smallText = bodyText / GOLDEN_RATIO;
+                        break;
+                    case 'body':
+                        bodyText = baseSize;
+                        subheading = bodyText * GOLDEN_RATIO;
+                        heading = subheading * GOLDEN_RATIO;
+                        title = heading * GOLDEN_RATIO;
+                        smallText = bodyText / GOLDEN_RATIO;
+                        break;
+                    case 'small':
+                        smallText = baseSize;
+                        bodyText = smallText * GOLDEN_RATIO;
+                        subheading = bodyText * GOLDEN_RATIO;
+                        heading = subheading * GOLDEN_RATIO;
+                        title = heading * GOLDEN_RATIO;
+                        break;
+                }
+
+                // Calculate the special "Big Subheading" size using the new ratio
+                const bigSubheading = heading / BIG_SUBHEADING_RATIO;
+
+                // Update the UI with the calculated values, rounded to two decimal places
+                titleSizeElement.textContent = `${title.toFixed(2)}`;
+                headingSizeElement.textContent = `${heading.toFixed(2)}`;
+                bigSubheadingSizeElement.textContent = `${bigSubheading.toFixed(2)}`;
+                subheadingSizeElement.textContent = `${subheading.toFixed(2)}`;
+                bodyTextSizeElement.textContent = `${bodyText.toFixed(2)}`;
+                smallTextSizeElement.textContent = `${smallText.toFixed(2)}`;
+            };
+
+            // Add event listeners to trigger the calculation whenever the input or select changes
+            baseFontSizeInput.addEventListener('input', calculateFontSizes);
+            baseFontTypeSelect.addEventListener('change', calculateFontSizes);
+
+            // Run the calculation once on page load to display initial values
+            calculateFontSizes();
+        };
+    </script>
+
+</body>
+</html>
