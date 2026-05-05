@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTA Formatter</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0e0e10;
+    color: #d4d4d8;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #f4f4f5;
+    letter-spacing: -0.02em;
+  }
+
+  h1 span { color: #ef4444; }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #71717a;
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .workspace { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #52525b;
+    margin-bottom: 0.5rem;
+  }
+
+  textarea, .output-box {
+    height: 420px;
+    max-height: 420px;
+    overflow-y: auto;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #d4d4d8;
+    resize: none;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: #ef4444;
+  }
+
+  textarea::placeholder { color: #3f3f46; }
+
+  textarea[readonly] {
+    cursor: text;
+    background: #141416;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: #ef4444;
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: #dc2626; }
+
+  .btn-secondary {
+    background: #27272a;
+    color: #a1a1aa;
+    border: 1px solid #3f3f46;
+  }
+
+  .btn-secondary:hover {
+    background: #3f3f46;
+    color: #f4f4f5;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    background: #1c1c1f;
+    border: 1px solid #27272a;
+    color: #71717a;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-left: auto;
+    align-self: center;
+  }
+
+  .badge.found { color: #ef4444; border-color: #7f1d1d; background: #1a0a0a; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>/cta <span>Formatter</span></h1>
+    <p class="subtitle">Paste your full markdown blog post. Every <code>/cta</code> block gets converted to red, bold HTML with a line break before the button link.</p>
+  </header>
+
+  <div class="workspace">
+    <div class="panel">
+      <div class="panel-label">Input — Markdown</div>
+      <textarea id="input" placeholder="Paste your full blog post here..."></textarea>
+    </div>
+    <div class="panel">
+      <div class="panel-label">Output — Formatted</div>
+      <textarea id="output" readonly placeholder="Formatted output appears here..."></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="convert()">Format CTAs</button>
+    <button class="btn-secondary" onclick="copyOutput()">Copy Output</button>
+    <button class="btn-secondary" onclick="clearAll()">Clear</button>
+    <span class="badge" id="counter">0 CTAs found</span>
+  </div>
+</div>
+
+<script>
+function convert() {
+  const input = document.getElementById('input').value;
+  if (!input.trim()) return;
+
+  // Pattern:
+  // /cta <sentence>
+  // [button text](url)
+  //
+  // We match /cta followed by the rest of the line, then a markdown link on the next non-empty line.
+  const ctaRegex = /^\/cta\s+(.+)\n+\[([^\]]+)\]\(([^)]+)\)/gm;
+
+  let count = 0;
+  const output = input.replace(ctaRegex, (match, sentence, linkText, url) => {
+    count++;
+    const formatted =
+      `<strong style="color: red;">/cta ${sentence.trim()}</strong><br>\n` +
+      `<a href="${url}"><strong style="color: red;">${linkText.trim()}</strong></a>`;
+    return formatted;
+  });
+
+  document.getElementById('output').value = output;
+  const badge = document.getElementById('counter');
+  badge.textContent = `${count} CTA${count !== 1 ? 's' : ''} found`;
+  badge.className = count > 0 ? 'badge found' : 'badge';
+}
+
+function copyOutput() {
+  const outputEl = document.getElementById('output');
+  const text = outputEl.value;
+  if (!text) return;
+
+  // Select all text in the output textarea
+  outputEl.select();
+  outputEl.setSelectionRange(0, text.length);
+
+  // Try modern API first, fall back to execCommand
+  const copyBtn = document.querySelectorAll('.btn-secondary')[0];
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => showCopied(copyBtn)).catch(() => {
+      document.execCommand('copy');
+      showCopied(copyBtn);
+    });
+  } else {
+    document.execCommand('copy');
+    showCopied(copyBtn);
+  }
+}
+
+function showCopied(btn) {
+  const orig = btn.textContent;
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = orig, 1200);
+}
+
+function clearAll() {
+  document.getElementById('input').value = '';
+  document.getElementById('output').value = '';
+  document.getElementById('counter').textContent = '0 CTAs found';
+  document.getElementById('counter').className = 'badge';
+}
+</script>
+
+</body>
+</html>
