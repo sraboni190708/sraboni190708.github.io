@@ -61,7 +61,6 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,5.5vw,3.4re
 .pstat{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .pstat b{color:var(--ink);font-weight:600}
 .pstat .due b{color:var(--c)}
-.new{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c);border:1px solid var(--c);border-radius:99px;padding:0 7px;align-self:flex-start}
 .empty{border:1.5px dashed var(--line);border-radius:12px;padding:14px;font-size:.88rem;color:var(--muted)}
 .empty b{color:var(--ink);font-weight:600}
 .none{display:none;text-align:center;color:var(--muted);padding:24px}
@@ -102,11 +101,6 @@ function progress(item){
   return {locked,seen,due,fresh:false};
 }
 
-function isNew(item){
-  if(!item.added) return false;
-  const t=Date.parse(item.added);return !isNaN(t)&&Date.now()-t<14*864e5;
-}
-
 function render(){
   const q=$("#q").value.trim().toLowerCase();
   let shown=0;
@@ -118,7 +112,7 @@ function render(){
       const p=progress(it);
       const pr=p?`<div class="prog"><div class="bar" role="img" aria-label="${p.locked} of ${it.cards} locked in"><i style="width:${(p.locked/it.cards*100).toFixed(1)}%"></i></div>
         <div class="pstat">${p.fresh?`<span>${it.cards} cards · not started on this device</span>`:`<span><b>${p.locked}</b>/${it.cards} locked</span><span><b>${p.seen}</b> seen</span>${p.due?`<span class="due"><b>${p.due}</b> due now</span>`:""}`}</div></div>`:"";
-      return `<li class="item"><a href="${esc(it.href)}">${isNew(it)?'<span class="new">New</span>':""}<span class="iname">${esc(it.name)}<span class="arrow" aria-hidden="true">→</span></span>${it.note?`<span class="inote">${esc(it.note)}</span>`:""}${pr}</a></li>`;
+      return `<li class="item"><a href="${esc(it.href)}"><span class="iname">${esc(it.name)}<span class="arrow" aria-hidden="true">→</span></span>${it.note?`<span class="inote">${esc(it.note)}</span>`:""}${pr}</a></li>`;
     }).join("")}</ul>`:`<div class="empty"><b>Nothing here yet.</b> Ask Claude to add something to ${esc(sec.name)}, or add an entry to <code>hub.json</code>.</div>`;
     return `<section class="sec" data-id="${esc(sec.id)}"><div class="sechead"><h2>${esc(sec.name)}</h2><span class="count">${(sec.items||[]).length} ${(sec.items||[]).length===1?"page":"pages"}</span></div>${sec.blurb?`<p class="blurb">${esc(sec.blurb)}</p>`:""}${list}</section>`;
   }).join("");
