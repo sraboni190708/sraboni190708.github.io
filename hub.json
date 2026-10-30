@@ -1,0 +1,43 @@
+{
+  "title": "Estelle's Desk",
+  "sections": [
+    {
+      "id": "study",
+      "name": "Study",
+      "blurb": "Brain-install decks. Ten questions at a time.",
+      "items": [
+        {
+          "name": "Recent GK · Jan–May 2026",
+          "href": "study/gk-jan-may-2026.html",
+          "note": "Udvash Varsity 'Kha' booklet · 20 chapters",
+          "cards": 488,
+          "progressKey": "gk-brain-install-v1",
+          "added": "2026-10-30"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "Tools",
+      "blurb": "Small things that save time at work.",
+      "items": [
+        {
+          "name": "Golden Ratio Font Calculator",
+          "href": "tools/golden-ratio-calculator/",
+          "note": "Golden-ratio type scale from one base font size"
+        },
+        {
+          "name": "CTA Formatter",
+          "href": "tools/cta-formatter/",
+          "note": "Turns /cta blocks in a markdown post into styled HTML"
+        }
+      ]
+    },
+    {
+      "id": "resources",
+      "name": "Resources",
+      "blurb": "Links, references and reading worth keeping.",
+      "items": []
+    }
+  ]
+}
