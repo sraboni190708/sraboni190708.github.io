@@ -7,7 +7,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Hubot+Sans:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: a desk top. Greeting + search strip, then one panel per section in an auto-fitting grid.
    Each section gets its own ink colour, used for its label, count and progress bars. */
@@ -15,8 +15,8 @@
   --bg:#EEF1F5; --panel:#FFFFFF; --sunk:#E3E8EF; --ink:#18202D; --muted:#5B6576; --line:#D5DCE6;
   --c-study:#C77A0A; --c-tools:#0F7C74; --c-resources:#6B4FC8; --c-other:#3D5A99;
   --good:#1C8F5A;
-  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
-  --body:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  --display:"DM Serif Display",Georgia,"Times New Roman",serif;
+  --body:"Hubot Sans",ui-sans-serif,system-ui,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
@@ -36,7 +36,7 @@ a{color:inherit}
 header{display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:end}
 .hello{display:flex;flex-direction:column;gap:2px;min-width:0}
 .when{font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,5vw,3.1rem);line-height:1;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,5.5vw,3.4rem);line-height:1;letter-spacing:-.01em;margin:0;text-wrap:balance}
 .search{position:relative;width:min(320px,100%)}
 .search input{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 40px 10px 14px}
 .search input::placeholder{color:var(--muted)}
@@ -46,7 +46,7 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,5vw,3.1rem);l
 .sec{--c:var(--c-other);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
 .sec[data-id="study"]{--c:var(--c-study)} .sec[data-id="tools"]{--c:var(--c-tools)} .sec[data-id="resources"]{--c:var(--c-resources)}
 .sechead{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.sechead h2{font-family:var(--display);font-weight:700;font-size:1.45rem;margin:0;color:var(--c)}
+.sechead h2{font-family:var(--display);font-weight:400;font-size:1.65rem;margin:0;color:var(--c)}
 .count{font-size:.8rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
 .blurb{margin:-8px 0 0;font-size:.9rem;color:var(--muted)}
 .items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}

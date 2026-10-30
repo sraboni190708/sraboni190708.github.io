@@ -151,7 +151,7 @@
 <div class="container">
   <header>
     <h1>/cta <span>Formatter</span></h1>
-    <p class="subtitle">Paste your full markdown blog post. Every <code>/cta</code> block gets converted to red, bold HTML with a line break before the button link.</p>
+    <p class="subtitle">Paste your full markdown blog post. Every <code>/cta</code> block gets converted to red, bold HTML wrapped in structured paragraph tags.</p>
   </header>
 
   <div class="workspace">
@@ -181,16 +181,15 @@ function convert() {
   // Pattern:
   // /cta <sentence>
   // [button text](url)
-  //
-  // We match /cta followed by the rest of the line, then a markdown link on the next non-empty line.
   const ctaRegex = /^\/cta\s+(.+)\n+\[([^\]]+)\]\(([^)]+)\)/gm;
 
   let count = 0;
   const output = input.replace(ctaRegex, (match, sentence, linkText, url) => {
     count++;
+    // Updated to wrap block components into clean <p> structures natively
     const formatted =
-      `<strong style="color: red;">/cta ${sentence.trim()}</strong><br>\n` +
-      `<a href="${url}"><strong style="color: red;">${linkText.trim()}</strong></a>`;
+      `<p><strong style="color: red;">/cta ${sentence.trim()}</strong></p>\n` +
+      `<p><a href="${url}"><strong style="color: red;">${linkText.trim()}</strong></a></p>`;
     return formatted;
   });
 
@@ -205,11 +204,9 @@ function copyOutput() {
   const text = outputEl.value;
   if (!text) return;
 
-  // Select all text in the output textarea
   outputEl.select();
   outputEl.setSelectionRange(0, text.length);
 
-  // Try modern API first, fall back to execCommand
   const copyBtn = document.querySelectorAll('.btn-secondary')[0];
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text).then(() => showCopied(copyBtn)).catch(() => {
