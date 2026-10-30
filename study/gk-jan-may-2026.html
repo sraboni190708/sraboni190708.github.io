@@ -45,6 +45,9 @@ h1,h2,h3{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}
 .chips{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem}
 .chip{background:color-mix(in srgb,var(--bg) 14%,transparent);padding:3px 10px;border-radius:99px;font-variant-numeric:tabular-nums}
 .chip b{color:var(--accent)}
+.chipbtn{border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;cursor:pointer}
+.chipbtn:disabled{opacity:.7;cursor:wait}
+.chiplink{border:0;background:none;color:inherit;opacity:.75;text-decoration:underline;cursor:pointer}
 .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .mode{border:0;border-radius:16px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:4px;background:var(--surface);box-shadow:0 2px 0 var(--line);transition:transform .1s}
 .mode:hover{transform:translateY(-2px)}
@@ -694,8 +697,11 @@ let S={xp:0,box:{},seen:{},due:{},at:{},best:0,days:[],sound:true};
 try{const r=localStorage.getItem(KEY); if(r) S=Object.assign(S,JSON.parse(r));}catch(e){}
 S.at=S.at||{};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}queueSync();}
-/* ---- cross-device sync via the viewer's private claude.ai store ---- */
-let REF=null,SYNC="local",syncT=null,writing=Promise.resolve(),lastSent="";
+/* ---- cross-device sync ----
+   On claude.ai: the viewer's private artifact store (no setup).
+   On a self-hosted site: Google sign-in + Firestore through SYNC_MODULE, if set. */
+const SYNC_MODULE="/shared/sync.js";
+let BACK=null,SYNC="local",SYNC_MSG="",USER=null,FB=null,UNWATCH=null,syncT=null,writing=Promise.resolve(),lastSent="";
 function merge(a,b){
   const aw=a.wiped||0,bw=b.wiped||0;
   if(aw!==bw){ /* a reset happened on one device: drop the other side's history from before it */
@@ -712,33 +718,69 @@ function merge(a,b){
     if(src.box&&id in src.box)o.box[id]=src.box[id]; if(src.due&&id in src.due)o.due[id]=src.due[id]; if(src.at&&id in src.at)o.at[id]=src.at[id];});
   return o;
 }
-function queueSync(){ if(!REF) return; clearTimeout(syncT); syncT=setTimeout(pushSync,1500); }
+function queueSync(){ if(!BACK) return; clearTimeout(syncT); syncT=setTimeout(pushSync,1500); }
 function pushSync(){
-  if(!REF) return; const body=JSON.stringify(S); if(body===lastSent) return; lastSent=body;
-  writing=writing.then(()=>REF.set({state:body,updatedAt:Date.now()})).then(()=>{setSync("synced");},()=>{setSync("error");});
+  if(!BACK) return; const body=JSON.stringify(S); if(body===lastSent) return; lastSent=body;
+  const b=BACK;
+  writing=writing.then(()=>b.set(body)).then(()=>{if(BACK===b)setSync("synced");},e=>{if(BACK===b)setSync("error",FB?FB.explain(e):"");});
 }
-function setSync(st){SYNC=st;const el=document.getElementById("sync");if(el)el.textContent=syncLabel();}
-function syncLabel(){return SYNC==="synced"?"Synced to your account":SYNC==="error"?"Sync paused, saved on this device":SYNC==="connecting"?"Connecting…":"Saved on this device only";}
+function setSync(st,msg){SYNC=st;SYNC_MSG=msg||"";const el=document.getElementById("syncwrap");if(el){el.innerHTML=syncChip();bindSync();}}
+function syncChip(){
+  if(SYNC==="signin") return `<button class="chip chipbtn" id="signin">Sign in with Google to sync</button>`;
+  if(SYNC==="synced"&&USER) return `<span class="chip">Synced as <b>${esc(USER.name||USER.email||"you")}</b></span><button class="chip chiplink" id="signout">Sign out</button>`;
+  const t=SYNC==="synced"?"Synced to your account":SYNC==="error"?"Sync paused, saved on this device":SYNC==="connecting"?"Connecting…":"Saved on this device only";
+  return `<span class="chip">${t}</span>`+(SYNC_MSG?`<span class="chip">${esc(SYNC_MSG)}</span>`:"");
+}
+function bindSync(){
+  const si=document.getElementById("signin"),so=document.getElementById("signout");
+  if(si) si.onclick=async()=>{si.disabled=true;si.textContent="Opening Google…";try{await FB.signIn();}catch(e){setSync("signin",FB.explain(e));}finally{if(si.isConnected){si.disabled=false;si.textContent="Sign in with Google to sync";}}};
+  if(so) so.onclick=()=>FB.signOutUser();
+}
+async function attach(api){
+  const remote=await api.get();
+  if(remote){try{S=merge(S,JSON.parse(remote));S.at=S.at||{};try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}catch(e){}}
+  lastSent="";BACK=api;setSync("synced");pushSync();
+  UNWATCH=api.watch(str=>{
+    let r;try{r=JSON.parse(str);}catch(e){return;}
+    const m=merge(S,r),js=JSON.stringify(m); if(js===JSON.stringify(S)) return;
+    S=m;S.at=S.at||{};lastSent=js;try{localStorage.setItem(KEY,js);}catch(e){}
+    if(!run) home();
+  },e=>{BACK=null;setSync("error",FB?FB.explain(e):"");});
+  if(!run) home();
+}
 async function initSync(){
   try{
-    if(!window.claude||!window.claude.use) return;
+    if(window.claude&&window.claude.use){
+      setSync("connecting");
+      const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
+      const uid=db&&user?await user.id():null;
+      if(!uid){setSync("local");return;}
+      const ref=db.doc("data/users/"+uid+"/"+KEY);
+      await attach({
+        get:async()=>{const s=await ref.get();return s.exists?s.data().state:null;},
+        set:body=>ref.set({state:body,updatedAt:Date.now()}),
+        watch:(cb,err)=>ref.onSnapshot(sn=>{if(sn.exists&&!sn.metadata.hasPendingWrites)cb(sn.data().state);},err)
+      });
+      return;
+    }
+    if(!SYNC_MODULE||SYNC_MODULE.startsWith("__")) return;
     setSync("connecting");
-    const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
-    const uid=db&&user?await user.id():null;
-    if(!uid){setSync("local");return;}
-    REF=db.doc("data/users/"+uid+"/"+KEY);
-    const snap=await REF.get();
-    if(snap.exists){try{const r=JSON.parse(snap.data().state);S=merge(S,r);lastSent=JSON.stringify(S);try{localStorage.setItem(KEY,lastSent);}catch(e){}}catch(e){}}
-    setSync("synced"); pushSync();
-    REF.onSnapshot(sn=>{
-      if(!sn.exists||sn.metadata.hasPendingWrites) return;
-      let r;try{r=JSON.parse(sn.data().state);}catch(e){return;}
-      const m=merge(S,r),js=JSON.stringify(m); if(js===JSON.stringify(S)) return;
-      S=m;lastSent=js;try{localStorage.setItem(KEY,js);}catch(e){}
-      if(!run) home();
-    },()=>{REF=null;setSync("error");});
-    if(!run) home();
-  }catch(e){REF=null;setSync("error");}
+    FB=await import(SYNC_MODULE);
+    FB.onUser(async u=>{
+      if(UNWATCH){try{UNWATCH();}catch(e){}UNWATCH=null;}
+      BACK=null;USER=u;
+      if(!u){setSync("signin");return;}
+      setSync("connecting");
+      try{
+        const d=FB.deck(KEY);
+        await attach({
+          get:async()=>{const x=await d.get();return x?x.state:null;},
+          set:body=>d.set({state:body,updatedAt:Date.now()}),
+          watch:(cb,err)=>d.watch(x=>cb(x.state),err)
+        });
+      }catch(e){setSync("error",FB.explain(e));}
+    });
+  }catch(e){BACK=null;setSync("error");}
 }
 addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"){clearTimeout(syncT);pushSync();}});
 const MIN=60e3, IV=[0,5*MIN,30*MIN,6*60*MIN,24*60*MIN,3*24*60*MIN,7*24*60*MIN];
@@ -818,7 +860,7 @@ function home(){
     <div class="stats">
       <div class="chips"><span class="chip"><b>${S.xp}</b> XP</span><span class="chip">Streak <b>${streak()}</b> day${streak()===1?"":"s"}</span><span class="chip">Blitz best <b>${S.best}</b></span></div>
       <div class="xpbar" aria-label="XP to next level"><i style="width:${(L.into/L.need*100).toFixed(1)}%"></i></div>
-      <div class="chips"><span class="chip" id="sync">${syncLabel()}</span></div>
+      <div class="chips" id="syncwrap">${syncChip()}</div>
       <div class="chips"><span class="chip">Locked in <b>${m}</b>/${tot}</span><span class="chip">Seen <b>${seen}</b></span><span class="chip">Due now <b>${dueN}</b></span></div>
     </div>
   </section>
@@ -836,6 +878,7 @@ function home(){
       <div class="mbar"><i class="m" style="width:${mm/n*100}%"></i><i class="l" style="width:${ll/n*100}%"></i></div></button>
       <div class="chfoot"><span>${bn(mm)}/${bn(n)} locked</span><a href="#" data-cram="${c.id}">Cram sheet</a></div></div>`;}).join("")}
   </div>`;
+  bindSync();
   $("#go").onclick=()=>start(pickSmart(FACTS.map(f=>f.id),10),"Quick 10");
   $("#blitz").onclick=()=>start(shuffle(FACTS.filter(f=>S.seen[f.id]).length>=20?FACTS.filter(f=>S.seen[f.id]).map(f=>f.id):FACTS.map(f=>f.id)),"Blitz",true);
   $("#weak").onclick=()=>{const w=shuffle(FACTS.filter(f=>S.seen[f.id]&&box(f.id)<=1).map(f=>f.id)).slice(0,10);if(w.length)start(w,"Weak spots");};
